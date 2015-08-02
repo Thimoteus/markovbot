@@ -17,5 +17,5 @@ isShaggy msg = msg.name == "ShaggyTwoDope"
 
 main = do
   alphabetTxt <- readTextFile UTF8 "data/in.txt"
-  let alphabet = S.joinWith "\n" $ filter (P.parsableWith isShaggy) $ S.split "\n" alphabetTxt
-  writeTextFile UTF8 "data/me.txt" alphabet
+  let alphabet = S.joinWith "\n" $ map (S.drop 34) $ filter (P.parsableWith isShaggy) $ S.split "\n" alphabetTxt
+  writeTextFile UTF8 "data/out.txt" alphabet
