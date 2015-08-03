@@ -2,7 +2,7 @@ module Parser where
 
 import Prelude
 
-import S2DBot.Types
+import Types
 
 import Data.Foldable
 import Data.String

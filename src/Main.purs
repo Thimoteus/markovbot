@@ -6,4 +6,4 @@ import Control.Monad.Eff.Console
 import Node.IRC
 
 main = do
-  print "I'M SHAGGY"
+  print "I'M SHAGGY!"

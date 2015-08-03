@@ -5,7 +5,7 @@ import Prelude
 import qualified Data.String as S
 import qualified Parser as P
 import Data.Array
-import S2DBot.Types
+import Types
 
 import Node.FS.Sync
 import Node.Encoding
