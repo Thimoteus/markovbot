@@ -13,8 +13,9 @@ import Node.Encoding
 
 main = do
   let alphabet = toList $ S.split "" $ S.joinWith " " $ S.split "\n" txt
-  msg <- createStringFromChain 5 200 alphabet
-  log msg
+      chain = mkMarkovChain 5 alphabet
+  path <- createPath 200 chain
+  log $ showPathOfStrings path
 
 txt = """Is this the real life?
 Is this just fantasy?

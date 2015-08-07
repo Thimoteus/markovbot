@@ -134,10 +134,5 @@ showPath = S.joinWith "" <<< fromList <<< reverse <<< map (\ (State x) -> show $
 showPathOfStrings :: List (State (List String)) -> String
 showPathOfStrings = S.joinWith "" <<< fromList <<< extractStrings <<< reverse
   where
-    extractStrings :: List (State (List String)) -> _
-    extractStrings (Cons x xs) = (S.joinWith "" $ fromList $ fromState x) : (map (U.last <<< fromState) xs)
-
-createStringFromChain :: forall e. Int -> Int -> List String -> Eff ( random :: RANDOM | e ) String
-createStringFromChain k msg alph = do
-  path <- createPath msg $ mkMarkovChain k alph
-  return $ showPathOfStrings $ drop k path
+    extractStrings :: List (State (List String)) -> List String
+    extractStrings (Cons x xs) = (S.joinWith "" $ fromList $ fromState x) : (takeWhile (/= "\n") $ map (U.last <<< fromState) xs)

@@ -5,9 +5,11 @@ import Prelude
 import Data.Maybe
 import qualified Data.Maybe.Unsafe as U
 import qualified Data.Array as A
+import qualified Data.String as S
 import Data.List
 import Data.Int
 import Data.Tuple
+import Data.Time
 
 import Control.Monad.Eff
 import Control.Monad.Eff.Random
@@ -48,3 +50,9 @@ cut :: forall a e. Array a -> Eff ( random :: RANDOM | e ) (Array a)
 cut xs = do
   i <- randomInt 0 $ A.length xs - 1
   return $ (U.fromJust $ xs A.!! i) A.: A.take i xs ++ A.drop (i + 1) xs
+
+runEpochMilliseconds :: Milliseconds -> Int
+runEpochMilliseconds (Milliseconds n) = n
+
+alphabetize :: String -> List String
+alphabetize = toList <<< S.split "" -- <<< S.joinWith " " <<< S.split "\n"
