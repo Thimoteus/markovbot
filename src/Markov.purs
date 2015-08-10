@@ -25,7 +25,7 @@ import Control.Monad.Eff.Console
 -- | This module is essentially a proof of existence for certain Markov Chains.
 -- | An algorithm is provided which takes a list of strings and constructs by induction a Markov Chain of the
 -- | appropriate type.
--- | 
+-- |
 -- | Afterwards, it is shown how to extract a message from such a chain.
 
 -- | We begin by defining the empty Markov Chain, since the construction below happens by induction on an input list
@@ -45,7 +45,7 @@ transitions (MarkovChain _ t) = t
 -- | be safe, as it will result in a runtime error if the set of states has no distinguished state. But using
 -- | the method below, this state will always exist by construction.
 start :: forall a. (Ord a) => MarkovChain a -> State a
-start (MarkovChain states _) = go (V.toList states) where
+start (MarkovChain ss _) = go (V.toList ss) where
   go (Cons x@(Start _) _) = x
   go (Cons _ rest) = go rest
 
@@ -120,13 +120,19 @@ mkMarkovChain k xs = build empty $ kgram k xs
 
 -- | Now we can create a proper chain (well-ordering) by starting at the distinguished state and choosing uniformly
 -- | at random the next state from the list of possible transition destinations.
-createPath :: forall a e. (Ord a) => Int -> MarkovChain a -> Eff ( random :: RANDOM | e ) (List (State a))
-createPath n chain = tailRecM createPath' { count: n, lst: singleton $ start chain }
+createPath :: forall a e. (Ord a) => Int -> MarkovChain a -> (a -> Boolean) -> Number -> Eff ( random :: RANDOM | e ) (List (State a))
+createPath n chain term p = tailRecM createPath' { count: n, lst: singleton $ start chain }
   where
     createPath' { count: 0 , lst: acc } = return $ Right acc
-    createPath' { count: k, lst: acc@(Cons top _) } = do
-      next <- nextState chain top
-      return $ Left { count: k - 1, lst: next : acc }
+    createPath' { count: k, lst: acc@(Cons top _) }
+      | term $ fromState top = do
+        continue <- random
+        if continue < p
+          then return $ Right acc
+          else nextState chain top >>= \next -> return $ Left { count: k - 1, lst: next : acc }
+      | otherwise = do
+        next <- nextState chain top
+        return $ Left { count: k - 1, lst: next : acc }
 
 showPath :: forall a. (Show a) => States (List a) -> String
 showPath = S.joinWith "" <<< fromList <<< reverse <<< map (\ (State x) -> show $ U.last x) <<< V.toList
@@ -135,4 +141,4 @@ showPathOfStrings :: List (State (List String)) -> String
 showPathOfStrings = S.joinWith "" <<< fromList <<< extractStrings <<< reverse
   where
     extractStrings :: List (State (List String)) -> List String
-    extractStrings (Cons x xs) = (S.joinWith "" $ fromList $ fromState x) : (takeWhile (/= "\n") $ map (U.last <<< fromState) xs)
+    extractStrings (Cons x xs) = (S.joinWith "" $ fromList $ fromState x) : (map (U.last <<< fromState) xs)

@@ -56,3 +56,5 @@ runEpochMilliseconds (Milliseconds n) = n
 
 alphabetize :: String -> List String
 alphabetize = toList <<< S.split "" -- <<< S.joinWith " " <<< S.split "\n"
+
+unNLTextFile = S.joinWith "" <<< S.split "\n"

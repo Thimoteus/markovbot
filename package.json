@@ -1,5 +1,5 @@
 {
-  "name": "s2dbot",
+  "name": "markovbot",
   "version": "1.0.0",
   "description": "An IRC bot that uses Markov chains to spout nonsense.",
   "main": "src/Main.purs",

@@ -13,7 +13,15 @@ import Control.MonadPlus
 import Control.Monad.Eff.Random
 import Control.Monad.Rec.Class
 
+import Node.IRC
+
 type IRCMessage = { name :: String, message :: String }
+type BotInfo = { host :: Host
+               , nick :: Nick
+               , name :: String
+               , chan :: Channel
+               , keywords :: Array String
+               , password :: String }
 
 data State a = State a | Start a
 type States a = V.Set (State a)
