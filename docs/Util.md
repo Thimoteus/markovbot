@@ -48,4 +48,16 @@ given a list of elements, split it up into a list of overlapping (if k > 1) subl
 cut :: forall a e. Array a -> Eff (random :: RANDOM | e) (Array a)
 ```
 
+#### `runEpochMilliseconds`
+
+``` purescript
+runEpochMilliseconds :: Milliseconds -> Int
+```
+
+#### `alphabetize`
+
+``` purescript
+alphabetize :: String -> List String
+```
+
 

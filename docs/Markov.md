@@ -127,7 +127,7 @@ the tail of the input list.
 #### `createPath`
 
 ``` purescript
-createPath :: forall a e. (Ord a) => Int -> MarkovChain a -> Eff (random :: RANDOM | e) (List (State a))
+createPath :: forall a e. (Ord a) => Int -> MarkovChain a -> (a -> Boolean) -> Number -> Eff (random :: RANDOM | e) (List (State a))
 ```
 
 Now we can create a proper chain (well-ordering) by starting at the distinguished state and choosing uniformly
@@ -143,12 +143,6 @@ showPath :: forall a. (Show a) => States (List a) -> String
 
 ``` purescript
 showPathOfStrings :: List (State (List String)) -> String
-```
-
-#### `createStringFromChain`
-
-``` purescript
-createStringFromChain :: forall e. Int -> Int -> List String -> Eff (random :: RANDOM | e) String
 ```
 
 

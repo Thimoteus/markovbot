@@ -6,6 +6,12 @@
 type IRCMessage = { name :: String, message :: String }
 ```
 
+#### `BotInfo`
+
+``` purescript
+type BotInfo = { host :: Host, nick :: Nick, name :: String, chan :: Channel, keywords :: Array String, password :: String }
+```
+
 #### `State`
 
 ``` purescript
