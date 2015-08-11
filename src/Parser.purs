@@ -52,8 +52,8 @@ time = foldr (++) "" <$> sepBy1 number (try $ char ':')
 
 name :: Parser String
 name = do
-  first <- try $ letter <|> symbol
-  rest <- many $ try (letter <|> anyDigit <|> symbol <|> char '-')
+  first <- try letter <|> try symbol
+  rest <- many (try letter <|> try anyDigit <|> try symbol <|> try (char '-'))
   return $ foldMap C.toString $ first : rest
 
 message :: Parser String
@@ -83,3 +83,8 @@ parsableWith pred = either (const false) pred <<< runParser parseLine
 
 parsable :: String -> Boolean
 parsable line = parsableWith (const true) line
+
+showme :: String -> String
+showme input = case readLine input of
+                    Just a -> a.name ++ ": " ++ a.message
+                    Nothing -> ""
