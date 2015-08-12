@@ -119,7 +119,8 @@ mkMarkovChain k xs = build empty $ kgram k xs
       | otherwise = insert x (fromState $ start chain) chain
 
 -- | Now we can create a proper chain (well-ordering) by starting at the distinguished state and choosing uniformly
--- | at random the next state from the list of possible transition destinations.
+-- | at random the next state from the list of possible transition destinations. The third and fourth arguments are
+-- | to handle pre-emptive termination of the chain, for example when encountering a newline.
 createPath :: forall a e. (Ord a) => Int -> MarkovChain a -> (a -> Boolean) -> Number -> Eff ( random :: RANDOM | e ) (List (State a))
 createPath n chain term p = tailRecM createPath' { count: n, lst: singleton $ start chain }
   where

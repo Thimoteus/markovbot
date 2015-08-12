@@ -131,7 +131,8 @@ createPath :: forall a e. (Ord a) => Int -> MarkovChain a -> (a -> Boolean) -> N
 ```
 
 Now we can create a proper chain (well-ordering) by starting at the distinguished state and choosing uniformly
-at random the next state from the list of possible transition destinations.
+at random the next state from the list of possible transition destinations. The third and fourth arguments are
+to handle pre-emptive termination of the chain, for example when encountering a newline.
 
 #### `showPath`
 

@@ -96,4 +96,10 @@ parsableWith :: (IRCMessage -> Boolean) -> String -> Boolean
 parsable :: String -> Boolean
 ```
 
+#### `showme`
+
+``` purescript
+showme :: String -> String
+```
+
 
